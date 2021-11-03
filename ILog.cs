@@ -1,0 +1,7 @@
+﻿namespace LogDataApp
+{
+    interface ILog
+    {
+    
+    }
+}
