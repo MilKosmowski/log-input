@@ -38,7 +38,7 @@ namespace LogDataApp
         {
             foreach (var WriterType in Writers)
             {
-                WriterType.WriteData(userInput);
+                WriterType.WriteData(userInput, logPriority);
             }
         }
     }

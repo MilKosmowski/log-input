@@ -26,20 +26,24 @@ namespace LogDataApp
 
                               "Input a letter:  ");
 
-            LogOption = Char.ToUpper(Convert.ToChar(Console.Read()));
 
-            if (LogOption.Equals(""))
+            ParseLogTypeInput(Console.Read());
+
+
+
+        }
+        private static void ParseLogTypeInput(int logTypeInput)
+        {
+            LogOption = Convert.ToChar(logTypeInput);
+
+            if (LogOption.Equals('N'))
             {
                 Console.WriteLine("Try again.");
                 ChooseLogType();
             }
             else
-            {
-                LogWriter = new DataWriterProxy(LogOption, LogPriority);
                 ChooseLogPriority();
-            }
         }
-
         private static void ChooseLogPriority()
         {
 
@@ -53,6 +57,12 @@ namespace LogDataApp
                               "Default - Trace\n\n" +
                               "Set log priority (1-6):");
 
+            ParselogPriorityInput(Console.ReadLine());
+        }
+        private static void ParselogPriorityInput(string logPriorityInput)
+        {
+            LogPriority = logPriorityInput;
+
             if (LogPriority == "")
             {
                 Console.WriteLine("Try again.");
@@ -60,17 +70,19 @@ namespace LogDataApp
             }
             else
             {
-                LogPriority = Console.ReadLine();
+                LogWriter = new DataWriterProxy(LogOption, LogPriority);
                 InputLog();
             }
         }
-
         private static void InputLog()
         {
             Console.WriteLine($"\nOption chosen: {LogOption}, Log priority: {LogPriority}. Input text to be logged and press Enter. Input Q to stop:");
-            
-            
-            UserInput = Console.ReadLine();
+
+            ParseLogTextInput(Console.ReadLine());
+        }
+        private static void ParseLogTextInput(string logTextInput)
+        {
+            UserInput = logTextInput;
 
             if (UserInput == "")
                 Console.WriteLine("Try again.");
@@ -79,7 +91,6 @@ namespace LogDataApp
                 LogWriter.Write(UserInput);
                 Console.WriteLine("Log/s written succesfully.");
             }
-
             InputLog();
         }
         #endregion
@@ -88,12 +99,7 @@ namespace LogDataApp
         private static char LogOption
         {
             get { return _logOption; }
-            set { if (_logOptions.Contains(value)) _logOption = value;}
-        }
-        private static string UserInput
-        {
-            get { return _userInput; }
-            set { if (value == "Q") Environment.Exit(0); else _userInput = value ?? ""; }
+            set { if (value.Equals(null)) _logOption = 'A'; if (_logOptions.Contains(Char.ToUpper(value))) _logOption = value; else _logOption = 'N'; }
         }
 
         private static string LogPriority
@@ -118,11 +124,19 @@ namespace LogDataApp
                         _logPriority = "Debug";
                         break;
                     case "6":
-                    default:
+                    case "":
                         _logPriority = "Trace";
+                        break;
+                    default:
+                        _logPriority = "";
                         break;
                     }
                 }
+        }
+        private static string UserInput
+        {
+            get { return _userInput; }
+            set { if (value == "Q" || value == "q") Environment.Exit(0); else _userInput = value ?? ""; }
         }
         #endregion
 
