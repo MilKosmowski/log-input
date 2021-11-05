@@ -6,11 +6,10 @@ namespace LogDataApp
     {
         public override string Parse(string logTextInput)
         {
-            UserInput = logTextInput;
-            if (UserInput.ToUpper() == "Q") return UserInput.ToUpper();
+            UserInput = logTextInput.ToUpper();
             return UserInput;
         }
-        public string Parse(string logTextInput, DataWriterProxy LogWriter)
+        public  string Parse(string logTextInput, DataWriterProxy LogWriter)
         {
             LogWriter.Write(Parse(logTextInput));
             return UserInput;

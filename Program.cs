@@ -17,8 +17,8 @@ namespace LogDataApp
         {
             Console.WriteLine("Input logging method: \n" +
                               "(C)onsole logging,\n" +
-                              "(F)ile logging,\n" +
-                              "(E)vent logging,\n" +
+                              "(F)ile logging. Saved to \"Log (current date).txt\",\n" +
+                              "(E)vent logging. Saved to Application and Services Logs/DataAppLog,\n" +
                               "Default -> (A)ll of the above\n\n" +
 
                               "Set logging method (C,F,E,A):");
@@ -27,7 +27,6 @@ namespace LogDataApp
                 do { _logOption = Input.Parse(Console.ReadLine()); }
                 while (_logOption == "N");
             
-
             ChooseLogPriority();
 
         }
@@ -37,7 +36,7 @@ namespace LogDataApp
             Console.WriteLine("Choose log priority:\n" +
                               "1 - Fatal\n" +
                               "2 - Error\n" +
-                              "3 - Warn\n" +
+                              "3 - Warning\n" +
                               "4 - Info\n" +
                               "5 - Debug\n" +
                               "Default -> 6 - Trace\n\n" +

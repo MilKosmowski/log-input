@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 
 namespace LogDataApp
@@ -23,17 +24,35 @@ namespace LogDataApp
         {
             sw.WriteLine("{0} | {1} | {2}",
                          DateTime.Now.ToString("HH:mm:ss"), logPriority, userInput);
-            sw.Close();
+            sw.Flush();
         }
 
-        private StreamWriter sw = new StreamWriter($"Log {DateTime.Now.ToString("dd-MM-yy")}.txt");
+        private StreamWriter sw = new StreamWriter($"Log {DateTime.Now.ToString("dd-MM-yy")}.txt",true);
     }
 
     internal class LogToEventLog : IDataWriter
     {
-        public void WriteData(string userInput, string logPriority)
+        EventLog myLog = new EventLog();
+
+        EventLogEntryType _eventLogEntryType;
+
+
+
+    public void WriteData(string userInput, string logPriority)
         {
-            throw new NotImplementedException();
+            _eventLogEntryType = logPriority switch
+            {
+                "Fatal" or "Error" => EventLogEntryType.Error,
+                "Warning" => EventLogEntryType.Warning,
+                "Info" or "Debug" or _ => EventLogEntryType.Information
+            };
+
+            if (!EventLog.SourceExists("LogDataApp"))
+                EventLog.CreateEventSource("LogDataApp", "DataAppLogs");
+
+            myLog.Source = "LogDataApp";
+            myLog.WriteEntry(userInput, _eventLogEntryType);
+
         }
     }
 }
