@@ -1,36 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace LogDataApp
 {
-    class DataWriterProxy
+    internal class DataWriterProxy
     {
-        private char logOption;
+        private string logOption;
         private string logPriority;
-        List<IDataWriter> Writers;
+        private List<IDataWriter> Writers = new List<IDataWriter>();
 
-        public DataWriterProxy (char logOption, string logPriority)
+        public DataWriterProxy(string logOption, string logPriority)
         {
             this.logOption = logOption;
             this.logPriority = logPriority;
 
             switch (logOption)
             {
-                case ('C'):
+                case ("C"):
                     Writers.Add(new LogToConsole());
                     break;
-                case ('F'):
+
+                case ("F"):
                     Writers.Add(new LogToFile());
                     break;
-                case ('E'):
+
+                case ("E"):
                     Writers.Add(new LogToEventLog());
                     break;
+
                 default:
                     Writers.Add(new LogToConsole());
                     Writers.Add(new LogToFile());
                     Writers.Add(new LogToEventLog());
                     break;
-
             }
         }
 
