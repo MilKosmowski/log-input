@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace LogDataApp
 {
@@ -27,13 +29,13 @@ namespace LogDataApp
                     break;
 
                 case ("E"):
-                    Writers.Add(new LogToEventLog());
+                    CreateWindowsEventLog(Writers);
                     break;
 
                 default:
                     Writers.Add(new LogToConsole());
                     Writers.Add(new LogToFile());
-                    Writers.Add(new LogToEventLog());
+                    CreateWindowsEventLog(Writers);
                     break;
             }
 
@@ -42,6 +44,24 @@ namespace LogDataApp
                 WriterType.LogData(userInput, logPriority);
             }
             Writers.Clear();
+        }
+
+        private void CreateWindowsEventLog(List<IDataLogger> Writers)
+        {
+            if (OperatingSystem.IsWindows())
+            {
+                EventLog myLog = new EventLog();
+                EventLogEntryType _eventLogEntryType = logPriority switch
+                {
+                    "Fatal" or "Error" => EventLogEntryType.Error,
+                    "Warning" => EventLogEntryType.Warning,
+                    "Info" or "Debug" or _ => EventLogEntryType.Information
+                };
+                if (!EventLog.SourceExists("LogDataApp"))
+                    EventLog.CreateEventSource("LogDataApp", "DataAppLogs");
+                myLog.Source = "LogDataApp";
+                Writers.Add(new LogToWindowsEventLog(myLog, _eventLogEntryType));
+            }
         }
     }
 }

@@ -65,7 +65,7 @@ namespace LogDataApp
                     _logResult = Input.RunLogWriter(Console.ReadLine(), LogWriter);
                     Console.WriteLine("Write log text:\n");
                 }
-                while (_logResult != "Q");
+                while (_logResult.ToUpper() != "Q");
 
             Environment.Exit(0);
         }
