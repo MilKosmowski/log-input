@@ -22,38 +22,33 @@ namespace LogDataApp
     {
         public void LogData(string userInput, string logPriority)
         {
-            sw = new StreamWriter($"Log {DateTime.Now.ToString("dd-MM-yy")}.txt", true);
-            sw.WriteLine("{0} | {1} | {2}",
-                         DateTime.Now.ToString("HH:mm:ss"), logPriority, userInput);
-            sw.Flush();
+            using (StreamWriter sw = File.AppendText($"fileInfo"))
+                sw.WriteLine("{0} | {1} | {2}",
+                    DateTime.Now.ToString("HH:mm:ss"), logPriority, userInput);
+
+           // sw.Flush();
         }
 
         private StreamWriter sw;
     }
 
-    public class LogToEventLog : IDataLogger
+    public class LogToWindowsEventLog : IDataLogger
     {
-        private EventLog myLog = new EventLog();
 
-        private EventLogEntryType _eventLogEntryType;
+        private readonly EventLog myLog;
+
+        private readonly EventLogEntryType _eventLogEntryType;
+
+        public LogToWindowsEventLog(EventLog myLog, EventLogEntryType eventLogEntryType)
+        {
+            this.myLog = myLog;
+            _eventLogEntryType = eventLogEntryType;
+        }
 
         public void LogData(string userInput, string logPriority)
         {
-            if (OperatingSystem.IsWindows())
-            {
-                _eventLogEntryType = logPriority switch
-                {
-                    "Fatal" or "Error" => EventLogEntryType.Error,
-                    "Warning" => EventLogEntryType.Warning,
-                    "Info" or "Debug" or _ => EventLogEntryType.Information
-                };
-
-                if (!EventLog.SourceExists("LogDataApp"))
-                    EventLog.CreateEventSource("LogDataApp", "DataAppLogs");
-
-                myLog.Source = "LogDataApp";
                 myLog.WriteEntry(userInput, _eventLogEntryType);
-            }
+            
         }
     }
 }

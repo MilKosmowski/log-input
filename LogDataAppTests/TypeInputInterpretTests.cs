@@ -3,7 +3,7 @@
 namespace LogDataApp.Tests
 {
     [TestClass()]
-    public class ParseLogTypeInputTests
+    public class TypeInputInterpretTests
     {
         [TestMethod()]
         public void ParseTestOk()

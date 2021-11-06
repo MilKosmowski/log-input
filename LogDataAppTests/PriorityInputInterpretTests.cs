@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace LogDataApp.Tests
 {
     [TestClass()]
-    public class ParseLogPriorityInputTests
+    public class PriorityInputInterpretTests
     {
 
         [TestMethod()]
