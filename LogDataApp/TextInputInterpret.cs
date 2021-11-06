@@ -1,16 +1,16 @@
 ﻿namespace LogDataApp
 {
-    public class ParseLogTextInput : ParseLog
+    public class TextInputInterpret : InterpreInput
     {
-        public override string Parse(string logTextInput)
+        public override string Interpret(string logTextInput)
         {
-            UserInput = logTextInput.ToUpper();
+            UserInput = logTextInput;
             return UserInput;
         }
 
-        public string Parse(string logTextInput, DataWriterProxy LogWriter)
+        public string RunLogWriter(string logTextInput, DataWriterManager LogWriter)
         {
-            LogWriter.Write(Parse(logTextInput));
+            LogWriter.Write(Interpret(logTextInput));
             return UserInput;
         }
 

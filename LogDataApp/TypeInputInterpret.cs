@@ -3,9 +3,9 @@ using System.Linq;
 
 namespace LogDataApp
 {
-    public class ParseLogTypeInput : ParseLog
+    public class TypeInputInterpret : InterpreInput
     {
-        public override string Parse(string logTypeInput)
+        public override string Interpret(string logTypeInput)
         {
             LogOption = logTypeInput;
             return LogOption;

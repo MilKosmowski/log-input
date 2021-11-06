@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace LogDataApp
 {
@@ -22,8 +23,8 @@ namespace LogDataApp
 
                               "Set logging method (C,F,E,A):");
 
-            using (var Input = new ParseLogTypeInput())
-                do { _logOption = Input.Parse(Console.ReadLine()); }
+            using (var Input = new TypeInputInterpret())
+                do { _logOption = Input.Interpret(Console.ReadLine()); }
                 while (_logOption == "N");
 
             ChooseLogPriority();
@@ -31,30 +32,37 @@ namespace LogDataApp
 
         private static void ChooseLogPriority()
         {
-            Console.WriteLine("Choose log priority:\n" +
-                              "1 - Fatal\n" +
-                              "2 - Error\n" +
-                              "3 - Warning\n" +
-                              "4 - Info\n" +
-                              "5 - Debug\n" +
-                              "Default -> 6 - Trace\n\n" +
+            LogPriorityDictionary.Add("1", "Fatal");
+            LogPriorityDictionary.Add("2", "Error");
+            LogPriorityDictionary.Add("3", "Warning");
+            LogPriorityDictionary.Add("4", "Info");
+            LogPriorityDictionary.Add("5", "Debug");
+            LogPriorityDictionary.Add("6", "Trace");
+            LogPriorityDictionary.Add("", "Trace");
 
-                              "Set log priority (1-6):");
+            Console.WriteLine("Choose log priority:");
 
-            using (var Input = new ParseLogPriorityInput())
-                do { _logPriority = Input.Parse(Console.ReadLine()); }
+            foreach (KeyValuePair<string, string> entry in LogPriorityDictionary)
+            {
+                Console.WriteLine($"{entry.Key} - {entry.Value}");
+            }
+
+           Console.WriteLine("Set log priority (1-6):");
+
+            using (var Input = new PriorityInputInterpret(LogPriorityDictionary))
+                do { _logPriority = Input.Interpret(Console.ReadLine()); }
                 while (_logPriority == "");
-            LogWriter = new DataWriterProxy(_logOption, _logPriority);
-            InputLog();
+            LogWriter = new DataWriterManager(_logOption, _logPriority);
+            InputLogText();
         }
 
-        private static void InputLog()
+        private static void InputLogText()
         {
             Console.WriteLine("Write log text:\n");
-            using (var Input = new ParseLogTextInput())
+            using (var Input = new TextInputInterpret())
                 do
                 {
-                    _logResult = Input.Parse(Console.ReadLine(), LogWriter);
+                    _logResult = Input.RunLogWriter(Console.ReadLine(), LogWriter);
                     Console.WriteLine("Write log text:\n");
                 }
                 while (_logResult != "Q");
@@ -67,6 +75,7 @@ namespace LogDataApp
         private static string _logOption;
         private static string _logPriority;
         private static string _logResult;
-        private static DataWriterProxy LogWriter;
+        private static DataWriterManager LogWriter;
+        static Dictionary<string, string> LogPriorityDictionary = new Dictionary<string, string>();
     }
 }

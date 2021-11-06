@@ -2,14 +2,14 @@
 
 namespace LogDataApp
 {
-    internal interface IParse
+    internal interface IInterpret
     {
-        string Parse(string input);
+        string Interpret(string input);
     }
 
-    public abstract class ParseLog : IParse, IDisposable
+    public abstract class InterpreInput : IInterpret, IDisposable
     {
-        public abstract string Parse(string input);
+        public abstract string Interpret(string input);
 
         private bool disposed;
 

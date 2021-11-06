@@ -1,34 +1,25 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 
 namespace LogDataApp.Tests
 {
     [TestClass()]
     public class ParseLogPriorityInputTests
     {
+
         [TestMethod()]
         public void ParseTestFatal()
         {
-            ParseLog Parse = new ParseLogPriorityInput();
-            Assert.AreEqual(Parse.Parse("1"), "Fatal");
+            Dictionary<string, string> LogPriorityDictionary = new Dictionary<string, string>();
+            LogPriorityDictionary.Add("1", "Fatal");
+            InterpreInput Interpret = new PriorityInputInterpret(LogPriorityDictionary);
+            Assert.AreEqual(Interpret.Interpret("1"), "Fatal");
         }
-
-        [TestMethod()]
-        public void ParseTestTrace()
-        {
-            ParseLog Parse = new ParseLogPriorityInput();
-            Assert.AreEqual(Parse.Parse("6"), "Trace");
-        }
-
-        public void ParseTestEmpty()
-        {
-            ParseLog Parse = new ParseLogPriorityInput();
-            Assert.AreEqual(Parse.Parse(""), "Trace");
-        }
-
         public void ParseTestNull()
         {
-            ParseLog Parse = new ParseLogPriorityInput();
-            Assert.AreEqual(Parse.Parse(null), "");
+            Dictionary<string, string> LogPriorityDictionary = new Dictionary<string, string>();
+            InterpreInput Interpret = new PriorityInputInterpret(LogPriorityDictionary);
+            Assert.AreEqual(Interpret.Interpret(null), "");
         }
     }
 }

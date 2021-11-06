@@ -2,17 +2,20 @@
 
 namespace LogDataApp
 {
-    public class DataWriterProxy
+    public class DataWriterManager
     {
         private string logOption;
         private string logPriority;
-        private List<IDataWriter> Writers = new List<IDataWriter>();
+        private List<IDataLogger> Writers = new List<IDataLogger>();
 
-        public DataWriterProxy(string logOption, string logPriority)
+        public DataWriterManager(string logOption, string logPriority)
         {
             this.logOption = logOption;
             this.logPriority = logPriority;
+        }
 
+        public void Write(string userInput)
+        {
             switch (logOption)
             {
                 case ("C"):
@@ -33,14 +36,12 @@ namespace LogDataApp
                     Writers.Add(new LogToEventLog());
                     break;
             }
-        }
 
-        public void Write(string userInput)
-        {
             foreach (var WriterType in Writers)
             {
-                WriterType.WriteData(userInput, logPriority);
+                WriterType.LogData(userInput, logPriority);
             }
+            Writers.Clear();
         }
     }
 }

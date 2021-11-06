@@ -4,39 +4,40 @@ using System.IO;
 
 namespace LogDataApp
 {
-    public interface IDataWriter
+    public interface IDataLogger
     {
-        public void WriteData(string userInput, string logPriority);
+        public void LogData(string userInput, string logPriority);
     }
 
-    public class LogToConsole : IDataWriter
+    public class LogToConsole : IDataLogger
     {
-        public void WriteData(string userInput, string logPriority)
+        public void LogData(string userInput, string logPriority)
         {
             Console.WriteLine("{0} | {1} | {2}",
                               DateTime.Now.ToString("HH:mm:ss"), logPriority, userInput);
         }
     }
 
-    public class LogToFile : IDataWriter
+    public class LogToFile : IDataLogger
     {
-        public void WriteData(string userInput, string logPriority)
+        public void LogData(string userInput, string logPriority)
         {
+            sw = new StreamWriter($"Log {DateTime.Now.ToString("dd-MM-yy")}.txt", true);
             sw.WriteLine("{0} | {1} | {2}",
                          DateTime.Now.ToString("HH:mm:ss"), logPriority, userInput);
             sw.Flush();
         }
 
-        private StreamWriter sw = new StreamWriter($"Log {DateTime.Now.ToString("dd-MM-yy")}.txt", true);
+        private StreamWriter sw;
     }
 
-    public class LogToEventLog : IDataWriter
+    public class LogToEventLog : IDataLogger
     {
         private EventLog myLog = new EventLog();
 
         private EventLogEntryType _eventLogEntryType;
 
-        public void WriteData(string userInput, string logPriority)
+        public void LogData(string userInput, string logPriority)
         {
             if (OperatingSystem.IsWindows())
             {

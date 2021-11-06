@@ -8,15 +8,15 @@ namespace LogDataApp.Tests
         [TestMethod()]
         public void ParseTestOk()
         {
-            ParseLog Parse = new ParseLogTextInput();
-            Assert.AreEqual(Parse.Parse("Raz dwa trzy"), "Raz dwa trzy");
+            InterpreInput Parse = new TextInputInterpret();
+            Assert.AreEqual(Parse.Interpret("Raz dwa trzy"), "Raz dwa trzy");
         }
 
         [TestMethod()]
         public void ParseTestNull()
         {
-            ParseLog Parse = new ParseLogTextInput();
-            Assert.AreEqual(Parse.Parse(null), "");
+            InterpreInput Parse = new TextInputInterpret();
+            Assert.AreEqual(Parse.Interpret(null), "");
         }
     }
 }

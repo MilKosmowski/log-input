@@ -8,22 +8,22 @@ namespace LogDataApp.Tests
         [TestMethod()]
         public void ParseTestOk()
         {
-            ParseLog Parse = new ParseLogTypeInput();
-            Assert.AreEqual(Parse.Parse("A"), "A");
+            InterpreInput Parse = new TypeInputInterpret();
+            Assert.AreEqual(Parse.Interpret("A"), "A");
         }
 
         [TestMethod()]
         public void ParseTestN()
         {
-            ParseLog Parse = new ParseLogTypeInput();
-            Assert.AreEqual(Parse.Parse("f"), "N");
+            InterpreInput Parse = new TypeInputInterpret();
+            Assert.AreEqual(Parse.Interpret("z"), "N");
         }
 
         [TestMethod()]
         public void ParseTestEmpty()
         {
-            ParseLog Parse = new ParseLogTypeInput();
-            Assert.AreEqual(Parse.Parse(""), "A");
+            InterpreInput Parse = new TypeInputInterpret();
+            Assert.AreEqual(Parse.Interpret(""), "A");
         }
     }
 }
