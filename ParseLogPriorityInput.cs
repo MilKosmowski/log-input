@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace LogDataApp
+﻿namespace LogDataApp
 {
-    class ParseLogPriorityInput : ParseLog
+    public class ParseLogPriorityInput : ParseLog
     {
         public override string Parse(string logPriorityInput)
         {

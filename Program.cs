@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace LogDataApp
 {
@@ -26,9 +25,8 @@ namespace LogDataApp
             using (var Input = new ParseLogTypeInput())
                 do { _logOption = Input.Parse(Console.ReadLine()); }
                 while (_logOption == "N");
-            
-            ChooseLogPriority();
 
+            ChooseLogPriority();
         }
 
         private static void ChooseLogPriority()
@@ -54,10 +52,10 @@ namespace LogDataApp
         {
             Console.WriteLine("Write log text:\n");
             using (var Input = new ParseLogTextInput())
-                do 
-                { 
-                    _logResult = Input.Parse(Console.ReadLine(), LogWriter); 
-                    Console.WriteLine("Write log text:\n"); 
+                do
+                {
+                    _logResult = Input.Parse(Console.ReadLine(), LogWriter);
+                    Console.WriteLine("Write log text:\n");
                 }
                 while (_logResult != "Q");
 
@@ -66,9 +64,9 @@ namespace LogDataApp
 
         #endregion Methods
 
-        static string _logOption;
-        static string _logPriority;
-        static string _logResult;
+        private static string _logOption;
+        private static string _logPriority;
+        private static string _logResult;
         private static DataWriterProxy LogWriter;
     }
 }

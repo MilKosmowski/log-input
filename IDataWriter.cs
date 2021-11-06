@@ -4,12 +4,12 @@ using System.IO;
 
 namespace LogDataApp
 {
-    internal interface IDataWriter
+    public interface IDataWriter
     {
         public void WriteData(string userInput, string logPriority);
     }
 
-    internal class LogToConsole : IDataWriter
+    public class LogToConsole : IDataWriter
     {
         public void WriteData(string userInput, string logPriority)
         {
@@ -18,7 +18,7 @@ namespace LogDataApp
         }
     }
 
-    internal class LogToFile : IDataWriter
+    public class LogToFile : IDataWriter
     {
         public void WriteData(string userInput, string logPriority)
         {
@@ -27,32 +27,32 @@ namespace LogDataApp
             sw.Flush();
         }
 
-        private StreamWriter sw = new StreamWriter($"Log {DateTime.Now.ToString("dd-MM-yy")}.txt",true);
+        private StreamWriter sw = new StreamWriter($"Log {DateTime.Now.ToString("dd-MM-yy")}.txt", true);
     }
 
-    internal class LogToEventLog : IDataWriter
+    public class LogToEventLog : IDataWriter
     {
-        EventLog myLog = new EventLog();
+        private EventLog myLog = new EventLog();
 
-        EventLogEntryType _eventLogEntryType;
+        private EventLogEntryType _eventLogEntryType;
 
-
-
-    public void WriteData(string userInput, string logPriority)
+        public void WriteData(string userInput, string logPriority)
         {
-            _eventLogEntryType = logPriority switch
+            if (OperatingSystem.IsWindows())
             {
-                "Fatal" or "Error" => EventLogEntryType.Error,
-                "Warning" => EventLogEntryType.Warning,
-                "Info" or "Debug" or _ => EventLogEntryType.Information
-            };
+                _eventLogEntryType = logPriority switch
+                {
+                    "Fatal" or "Error" => EventLogEntryType.Error,
+                    "Warning" => EventLogEntryType.Warning,
+                    "Info" or "Debug" or _ => EventLogEntryType.Information
+                };
 
-            if (!EventLog.SourceExists("LogDataApp"))
-                EventLog.CreateEventSource("LogDataApp", "DataAppLogs");
+                if (!EventLog.SourceExists("LogDataApp"))
+                    EventLog.CreateEventSource("LogDataApp", "DataAppLogs");
 
-            myLog.Source = "LogDataApp";
-            myLog.WriteEntry(userInput, _eventLogEntryType);
-
+                myLog.Source = "LogDataApp";
+                myLog.WriteEntry(userInput, _eventLogEntryType);
+            }
         }
     }
 }

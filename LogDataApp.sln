@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31613.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogDataApp", "LogDataApp.csproj", "{30472F96-28D6-4BBF-8C5C-11B9A34E9A0A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogDataApp", "LogDataApp.csproj", "{30472F96-28D6-4BBF-8C5C-11B9A34E9A0A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogDataAppTests", "..\LogDataAppTests\LogDataAppTests.csproj", "{A415A4A9-7D72-4E1C-AC5A-A4D47D1AC1EF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{30472F96-28D6-4BBF-8C5C-11B9A34E9A0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{30472F96-28D6-4BBF-8C5C-11B9A34E9A0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{30472F96-28D6-4BBF-8C5C-11B9A34E9A0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A415A4A9-7D72-4E1C-AC5A-A4D47D1AC1EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A415A4A9-7D72-4E1C-AC5A-A4D47D1AC1EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A415A4A9-7D72-4E1C-AC5A-A4D47D1AC1EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A415A4A9-7D72-4E1C-AC5A-A4D47D1AC1EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

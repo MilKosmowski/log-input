@@ -3,16 +3,15 @@ using System.Linq;
 
 namespace LogDataApp
 {
-    class ParseLogTypeInput : ParseLog
+    public class ParseLogTypeInput : ParseLog
     {
-
         public override string Parse(string logTypeInput)
         {
             LogOption = logTypeInput;
             return LogOption;
         }
 
-        string LogOption
+        private string LogOption
         {
             get { return _logOption; }
             set
@@ -24,6 +23,7 @@ namespace LogDataApp
                     _logOption = "N";
             }
         }
+
         private readonly string[] _logOptions = { "C", "F", "E", "A" };
 
         private string _logOption;

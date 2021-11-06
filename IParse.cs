@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LogDataApp
 {
-    interface IParse
+    internal interface IParse
     {
         string Parse(string input);
     }
@@ -15,7 +11,7 @@ namespace LogDataApp
     {
         public abstract string Parse(string input);
 
-        bool disposed;
+        private bool disposed;
 
         protected void Dispose(bool disposing)
         {

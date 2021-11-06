@@ -2,7 +2,7 @@
 
 namespace LogDataApp
 {
-    internal class DataWriterProxy
+    public class DataWriterProxy
     {
         private string logOption;
         private string logPriority;
@@ -35,7 +35,7 @@ namespace LogDataApp
             }
         }
 
-        internal void Write(string userInput)
+        public void Write(string userInput)
         {
             foreach (var WriterType in Writers)
             {
