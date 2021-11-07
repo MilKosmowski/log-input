@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Collections.Generic;
 
 namespace LogDataApp
 {
@@ -10,13 +8,12 @@ namespace LogDataApp
         private string logPriority;
         private List<IDataLogger> Writers = new List<IDataLogger>();
 
-        public DataWriterManager(string logOption, string logPriority)
+        public DataWriterManager(string logOption)
         {
             this.logOption = logOption;
-            this.logPriority = logPriority;
         }
 
-        public void Write(string userInput)
+        public List<IDataLogger> ReturnLoggers()
         {
             switch (logOption)
             {
@@ -29,39 +26,17 @@ namespace LogDataApp
                     break;
 
                 case ("E"):
-                    CreateWindowsEventLog(Writers);
+                    Writers.Add(new LogToWindowsEventLog());
                     break;
 
                 default:
                     Writers.Add(new LogToConsole());
                     Writers.Add(new LogToFile());
-                    CreateWindowsEventLog(Writers);
+                    Writers.Add(new LogToWindowsEventLog());
                     break;
             }
 
-            foreach (var WriterType in Writers)
-            {
-                WriterType.LogData(userInput, logPriority);
-            }
-            Writers.Clear();
-        }
-
-        private void CreateWindowsEventLog(List<IDataLogger> Writers)
-        {
-            if (OperatingSystem.IsWindows())
-            {
-                EventLog myLog = new EventLog();
-                EventLogEntryType _eventLogEntryType = logPriority switch
-                {
-                    "Fatal" or "Error" => EventLogEntryType.Error,
-                    "Warning" => EventLogEntryType.Warning,
-                    "Info" or "Debug" or _ => EventLogEntryType.Information
-                };
-                if (!EventLog.SourceExists("LogDataApp"))
-                    EventLog.CreateEventSource("LogDataApp", "DataAppLogs");
-                myLog.Source = "LogDataApp";
-                Writers.Add(new LogToWindowsEventLog(myLog, _eventLogEntryType));
-            }
+            return Writers;
         }
     }
 }

@@ -22,33 +22,31 @@ namespace LogDataApp
     {
         public void LogData(string userInput, string logPriority)
         {
-            using (StreamWriter sw = File.AppendText($"fileInfo"))
-                sw.WriteLine("{0} | {1} | {2}",
-                    DateTime.Now.ToString("HH:mm:ss"), logPriority, userInput);
-
-           // sw.Flush();
+            using StreamWriter sw = File.AppendText($"fileInfo");
+            sw.WriteLine("{0} | {1} | {2}",
+                DateTime.Now.ToString("HH:mm:ss"), logPriority, userInput);
         }
-
-        private StreamWriter sw;
     }
 
     public class LogToWindowsEventLog : IDataLogger
     {
-
-        private readonly EventLog myLog;
-
-        private readonly EventLogEntryType _eventLogEntryType;
-
-        public LogToWindowsEventLog(EventLog myLog, EventLogEntryType eventLogEntryType)
-        {
-            this.myLog = myLog;
-            _eventLogEntryType = eventLogEntryType;
-        }
-
         public void LogData(string userInput, string logPriority)
         {
+            if (OperatingSystem.IsWindows())
+            {
+                EventLog myLog = new EventLog();
+                EventLogEntryType _eventLogEntryType = logPriority switch
+                {
+                    "Fatal" or "Error" => EventLogEntryType.Error,
+                    "Warning" => EventLogEntryType.Warning,
+                    "Info" or "Debug" or _ => EventLogEntryType.Information
+                };
+                if (!EventLog.SourceExists("LogDataApp"))
+                    EventLog.CreateEventSource("LogDataApp", "DataAppLogs");
+                myLog.Source = "LogDataApp";
+
                 myLog.WriteEntry(userInput, _eventLogEntryType);
-            
+            }
         }
     }
 }

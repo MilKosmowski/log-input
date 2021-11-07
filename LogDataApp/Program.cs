@@ -11,8 +11,6 @@ namespace LogDataApp
             ChooseLogType();
         }
 
-        #region Methods
-
         private static void ChooseLogType()
         {
             Console.WriteLine("Input logging method: \n" +
@@ -52,7 +50,6 @@ namespace LogDataApp
             using (var Input = new PriorityInputInterpret(LogPriorityDictionary))
                 do { _logPriority = Input.Interpret(Console.ReadLine()); }
                 while (_logPriority == "");
-            LogWriter = new DataWriterManager(_logOption, _logPriority);
             InputLogText();
         }
 
@@ -62,20 +59,23 @@ namespace LogDataApp
             using (var Input = new TextInputInterpret())
                 do
                 {
-                    _logResult = Input.RunLogWriter(Console.ReadLine(), LogWriter);
+                    _logText = Input.Interpret(Console.ReadLine());
+
+                    LogWriters = new DataWriterManager(_logOption);
+                    foreach (IDataLogger Loggger in LogWriters.ReturnLoggers())
+                        Loggger.LogData(_logText, _logPriority);
+
                     Console.WriteLine("Write log text:\n");
                 }
-                while (_logResult.ToUpper() != "Q");
+                while (_logText.ToUpper() != "Q");
 
             Environment.Exit(0);
         }
 
-        #endregion Methods
-
         private static string _logOption;
         private static string _logPriority;
-        private static string _logResult;
-        private static DataWriterManager LogWriter;
+        private static string _logText;
+        private static DataWriterManager LogWriters;
         static Dictionary<string, string> LogPriorityDictionary = new Dictionary<string, string>();
     }
 }

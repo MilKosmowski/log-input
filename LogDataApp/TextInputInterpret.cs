@@ -8,11 +8,11 @@
             return UserInput;
         }
 
-        public string RunLogWriter(string logTextInput, DataWriterManager LogWriter)
-        {
-            LogWriter.Write(Interpret(logTextInput));
-            return UserInput;
-        }
+        //public string RunLogWriter(string logTextInput, DataWriterManager LogWriter)
+        //{
+        //    LogWriter.ReturnLoggers(Interpret(logTextInput));
+        //    return UserInput;
+        //}
 
         private string UserInput
         {

@@ -1,29 +1,30 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using LogDataApp;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
-
 namespace LogDataApp.Tests
 {
     [TestClass()]
     public class DataWriterManagerTests
     {
         [TestMethod()]
-        public void DataWriterManagerTestFile()
+        public void DataWriterManagerSingleTest()
         {
-            DataWriterManager DataWriter = new DataWriterManager("F", "Info");
-            DataWriter.Write("Test text");
-            string[] LogText = File.ReadAllLines($"Log {DateTime.Now.ToString("dd-MM-yy")}.txt");
-            Assert.IsTrue(LogText.Any(l => l.Contains(" | Info | Test text")));
+
+            DataWriterManager DataWriter = new("F");
+            List<IDataLogger> Loggers = DataWriter.ReturnLoggers();
+            IDataLogger FileLogger = new LogToFile();
+
+            Assert.AreEqual(Loggers[0].GetType(), FileLogger.GetType());
         }
-        [TestCleanup()]
-        public void DataWriterManagerTestCleanup()
+        [TestMethod()]
+        public void DataWriterManagerMultipleTest()
         {
-            File.Delete($"Log {DateTime.Now.ToString("dd-MM-yy")}.txt");
+
+            DataWriterManager DataWriter = new("A");
+            List<IDataLogger> Loggers = DataWriter.ReturnLoggers();
+            List<IDataLogger> LoggersTest = new() { new LogToConsole(), new LogToFile(), new LogToWindowsEventLog() };
+
+            for (int i = 0; i < Loggers.Count; i++)
+                Assert.AreEqual(Loggers[i].GetType(), LoggersTest[i].GetType());
         }
     }
 }
