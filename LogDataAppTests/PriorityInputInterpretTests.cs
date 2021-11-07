@@ -14,12 +14,5 @@ namespace LogDataApp.Tests
             InterpreInput Interpret = new PriorityInputInterpret(LogPriorityDictionary);
             Assert.AreEqual(Interpret.Interpret("1"), "Fatal");
         }
-        [TestMethod()]
-        public void ParseTestNull()
-        {
-            Dictionary<string, string> LogPriorityDictionary = new Dictionary<string, string>();
-            InterpreInput Interpret = new PriorityInputInterpret(LogPriorityDictionary);
-            Assert.AreEqual(Interpret.Interpret(null), "");
-        }
     }
 }

@@ -20,8 +20,10 @@ namespace LogDataApp
             get { return _logPriority; }
             set
             {
+                if (LogPriorityDictionary.ContainsKey(value))
                 _logPriority = LogPriorityDictionary[value];
-                _logPriority ??= "";
+                else
+                _logPriority = "";
             }
         }
 
