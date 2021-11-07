@@ -21,9 +21,9 @@ namespace LogDataApp
             set
             {
                 if (LogPriorityDictionary.ContainsKey(value))
-                _logPriority = LogPriorityDictionary[value];
+                    _logPriority = LogPriorityDictionary[value];
                 else
-                _logPriority = "";
+                    _logPriority = "";
             }
         }
 

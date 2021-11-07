@@ -22,7 +22,7 @@ namespace LogDataApp
     {
         public void LogData(string userInput, string logPriority)
         {
-            using StreamWriter sw = File.AppendText($"fileInfo");
+            using StreamWriter sw = File.AppendText($"Log {DateTime.Now.ToString("dd-MM-yy")}.txt");
             sw.WriteLine("{0} | {1} | {2}",
                 DateTime.Now.ToString("HH:mm:ss"), logPriority, userInput);
         }
@@ -34,18 +34,13 @@ namespace LogDataApp
         {
             if (OperatingSystem.IsWindows())
             {
-                EventLog myLog = new EventLog();
                 EventLogEntryType _eventLogEntryType = logPriority switch
                 {
                     "Fatal" or "Error" => EventLogEntryType.Error,
                     "Warning" => EventLogEntryType.Warning,
                     "Info" or "Debug" or _ => EventLogEntryType.Information
                 };
-                if (!EventLog.SourceExists("LogDataApp"))
-                    EventLog.CreateEventSource("LogDataApp", "DataAppLogs");
-                myLog.Source = "LogDataApp";
-
-                myLog.WriteEntry(userInput, _eventLogEntryType);
+                EventLog.WriteEntry(".Net Runtime", userInput, _eventLogEntryType,1000);
             }
         }
     }

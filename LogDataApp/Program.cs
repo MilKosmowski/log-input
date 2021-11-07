@@ -16,7 +16,7 @@ namespace LogDataApp
             Console.WriteLine("Input logging method: \n" +
                               "(C)onsole logging,\n" +
                               "(F)ile logging. Saved to \"Log (current date).txt\",\n" +
-                              "(E)vent logging. Saved to Application and Services Logs/DataAppLog,\n" +
+                              "(E)vent logging. Saved to Windows Logs/Application., .Net Runtime source,\n" +
                               "Default -> (A)ll of the above\n\n" +
 
                               "Set logging method (C,F,E,A):");
@@ -45,7 +45,7 @@ namespace LogDataApp
                 Console.WriteLine($"{entry.Key} - {entry.Value}");
             }
 
-           Console.WriteLine("Set log priority (1-6):");
+            Console.WriteLine("Set log priority (1-6):");
 
             using (var Input = new PriorityInputInterpret(LogPriorityDictionary))
                 do { _logPriority = Input.Interpret(Console.ReadLine()); }
@@ -65,7 +65,7 @@ namespace LogDataApp
                     foreach (IDataLogger Loggger in LogWriters.ReturnLoggers())
                         Loggger.LogData(_logText, _logPriority);
 
-                    Console.WriteLine("Write log text:\n");
+                    Console.WriteLine("Input log text (q to quit):\n");
                 }
                 while (_logText.ToUpper() != "Q");
 
@@ -76,6 +76,6 @@ namespace LogDataApp
         private static string _logPriority;
         private static string _logText;
         private static DataWriterManager LogWriters;
-        static Dictionary<string, string> LogPriorityDictionary = new Dictionary<string, string>();
+        private static Dictionary<string, string> LogPriorityDictionary = new Dictionary<string, string>();
     }
 }
